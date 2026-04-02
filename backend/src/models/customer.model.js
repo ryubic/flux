@@ -6,19 +6,15 @@ const customerSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-    },
-    nameLowerCase: {
-      type: String,
-      required: true,
-      trim: true,
       index: true,
-      default: this.name.toLowercase()
+      set: (v) => v.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()),
     },
     phone: {
       type: String,
       required: true,
       trim: true,
       unique: true,
+      index: true,
       validate: {
         validator: (v) => /^[0-9+\-()\s]{6,20}$/.test(v),
         message: "Invalid phone number format",

@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const userSchema = Schema(
+const userSchema = new Schema(
   {
     username: {
       type: String,
@@ -19,15 +19,14 @@ const userSchema = Schema(
       lowercase: true,
       trim: true,
     },
-    fullname: {
-      type: String,
-      trim: true,
-      default: this.username,
-    },
     role: {
       type: String,
       enum: ["admin", "staff"],
       default: "staff",
+    },
+    organization: {
+      type: mongoose.Types.ObjectId,
+      ref: "Organization"
     },
     password: {
       type: String,
@@ -40,14 +39,13 @@ const userSchema = Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", function (next) {
-  if (!this.isModified(password)) return next();
-  this.password = bcrypt.hashSync(this.passwordm, 10);
-  next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
-userSchema.methods.isPasswordCorrect = function (password) {
-  return bcrypt.compareSync(password, this.password);
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
 };
 
 userSchema.methods.generateAccessToken = function () {

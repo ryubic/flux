@@ -7,6 +7,8 @@ const itemSchema = new Schema(
       require: true,
       trim: true,
       unique: true,
+      index: true,
+      set: (v) => v.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()),
     },
     price: {
       type: Number,
@@ -30,4 +32,4 @@ itemSchema.pre("save", function () {
   }
 });
 
-export const Items = mongoose.model("Items", itemSchema);
+export const Item = mongoose.model("Item", itemSchema);
