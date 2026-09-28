@@ -26,7 +26,7 @@ const userSchema = new Schema(
     },
     organization: {
       type: mongoose.Types.ObjectId,
-      ref: "Organization"
+      ref: "Organization",
     },
     password: {
       type: String,

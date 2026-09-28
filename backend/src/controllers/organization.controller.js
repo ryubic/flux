@@ -119,6 +119,4 @@ const updateOrganization = asyncHandler(async (req, res) => {
   const org = Organization.findOne({
     previousName,
   });
-
-
 });

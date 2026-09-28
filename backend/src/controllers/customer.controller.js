@@ -13,9 +13,9 @@ const createCustomer = asyncHandler(async (req, res) => {
     name,
     phone,
   };
-  if (email?.trim()) customer.email = email
-  if (address?.trim()) customer.email = email
-  if (taxNumber?.trim()) customer.email = email
+  if (email?.trim()) customer.email = email;
+  if (address?.trim()) customer.email = email;
+  if (taxNumber?.trim()) customer.email = email;
 
-  const newCustomer = await Customer.create(customer)
+  const newCustomer = await Customer.create(customer);
 });
